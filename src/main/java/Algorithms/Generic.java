@@ -1,4 +1,4 @@
-package hashing;
+package Algorithms;
 
 public class Generic<Key , Value> implements Comparable<Generic<Key, Value>> {
     private Key key;

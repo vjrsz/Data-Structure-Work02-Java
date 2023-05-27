@@ -1,19 +1,31 @@
-package hashing;
+package File;
 
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import File.File;
+import com.opencsv.CSVReader;
+
 public class ReadFileCSV {
-    public static List<String[]> read(String path) {
-        List<String[]> data = new ArrayList<>();
+    public static List<File> read(String path) {
+        List<File> data = new ArrayList<>();
         try {
             CSVReader reader = new CSVReader(new FileReader(path));
             String[] line = reader.readNext(); // HEADER ignorar
 
             while ((line = reader.readNext()) != null) {
                 if ( ! lineHasFieldEmpty(line) ){
-                    data.add(line);
+
+                    File file = new File(
+                        line[0],
+                        line[1],
+                        Integer.parseInt(line[4]),
+                        line[2],
+                        line[3]
+                    );
+
+                    data.add(file);
                 }
             }
         } catch (Exception e) {

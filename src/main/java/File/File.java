@@ -1,4 +1,4 @@
-package hashing;
+package File;
 
 public class File {
     private String name;

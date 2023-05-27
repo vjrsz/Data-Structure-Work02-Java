@@ -1,10 +1,13 @@
-package hashing;
+package Algorithms;
 
-public class HashingQuadratic<K, V> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HashingQuadratic<K, V> implements HashTable<K, V> {
     private static final int DEFAULT_CAPACITY = 10;
     private static final double DEFAULT_LOAD_FACTOR = 0.75;
 
-    private Entry<K, V>[] table;
+    private Generic<K, V>[] table;
     private int size;
     private int capacity;
     private double loadFactor;
@@ -17,7 +20,7 @@ public class HashingQuadratic<K, V> {
         this.capacity = capacity;
         this.loadFactor = loadFactor;
         this.size = 0;
-        this.table = new Entry[capacity];
+        this.table = new Generic[capacity];
     }
 
     public void put(K key, V value) {
@@ -39,7 +42,7 @@ public class HashingQuadratic<K, V> {
         if (table[index] == null)
             size++;
 
-        table[index] = new Entry<>(key, value);
+        table[index] = new Generic<>(key, value);
     }
 
     public V get(K key) {
@@ -59,6 +62,10 @@ public class HashingQuadratic<K, V> {
             return table[index].getValue();
 
         return null;
+    }
+
+    public Generic<K, V>[] getAll() {
+        return this.table;
     }
 
     public void remove(K key) {
@@ -85,15 +92,21 @@ public class HashingQuadratic<K, V> {
     }
 
     private int getIndex(K key) {
-        return Math.abs(key.hashCode() % capacity);
+        int hashCode = key.hashCode();
+        int index = (hashCode % capacity + capacity) % capacity;
+        return index;
     }
+
+    /*private int getIndex(K key) {
+        return Math.abs(key.hashCode() % capacity);
+    }*/
 
     private void resizeTable() {
         capacity *= 2;
-        Entry<K, V>[] newTable = new Entry[capacity];
+        Generic<K, V>[] newTable = new Generic[capacity];
         size = 0;
 
-        for (Entry<K, V> entry : table) {
+        for (Generic<K, V> entry : table) {
             if (entry != null)
                 putInNewTable(newTable, entry.getKey(), entry.getValue());
         }
@@ -101,7 +114,7 @@ public class HashingQuadratic<K, V> {
         table = newTable;
     }
 
-    private void putInNewTable(Entry<K, V>[] table, K key, V value) {
+    private void putInNewTable(Generic<K, V>[] table, K key, V value) {
         int index = getIndex(key);
         int i = 1;
         int initialIndex = index;
@@ -111,25 +124,7 @@ public class HashingQuadratic<K, V> {
             i++;
         }
 
-        table[index] = new Entry<>(key, value);
+        table[index] = new Generic<>(key, value);
         size++;
-    }
-
-    private static class Entry<K, V> {
-        private K key;
-        private V value;
-
-        public Entry(K key, V value) {
-            this.key = key;
-            this.value = value;
-        }
-
-        public K getKey() {
-            return key;
-        }
-
-        public V getValue() {
-            return value;
-        }
     }
 }
