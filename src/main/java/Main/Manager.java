@@ -5,12 +5,17 @@ import Algorithms.IHashTable;
 import Algorithms.LinkedListHashTable;
 import Algorithms.QuadraticHashTable;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class Manager {
-    private static IHashTable[] IHashTables = { new QuadraticHashTable(), new LinkedListHashTable() };
-    private static Scanner input = new Scanner(System.in);
+    private static final Map<Integer, IHashTable> IHashTables = new HashMap<>();
+    private static final Scanner input = new Scanner(System.in);
     private IHashTable hashtable;
+
+    static{
+        Manager.IHashTables.put(1, new QuadraticHashTable());
+        Manager.IHashTables.put(2, new LinkedListHashTable());
+    }
 
     public Manager() {}
 
@@ -18,21 +23,19 @@ public class Manager {
         boolean loop = true;
 
         while(loop) {
-            System.out.println("? Escolha um método para tratar as colisões");
+            System.out.println("? Choose a method to handle collisions");
             System.out.println("1 - HashingQuadratic");
             System.out.println("2 - LinkedListHashTable");
-            System.out.println("3 - HashingQuadratic");
-            System.out.println("4 - HashingQuadratic");
             System.out.printf(":: ");
 
             int indexAlgorithms = input.nextInt();
 
-            if ( indexAlgorithms <= 0 || indexAlgorithms > IHashTables.length ){
-                System.out.println("! Insira um valor válido\n");
+            if ( indexAlgorithms <= 0 || indexAlgorithms > IHashTables.size() ){
+                System.out.println("! Enter a valid value\n");
                 continue;
             }
 
-            this.hashtable = getAlgorithmHash(indexAlgorithms - 1);
+            this.hashtable = getAlgorithmHash(indexAlgorithms);
             break;
         }
     }
@@ -47,7 +50,7 @@ public class Manager {
 
         System.out.println("% Inserted Element");
     }
-        // GA GB
+
     public void update(Generic generic){
         if( hashtable.get(generic.getKey()) == null ){
             System.out.println("! Element does not exist");
@@ -65,11 +68,13 @@ public class Manager {
         System.out.printf(":: ");
         String search = input.next();
 
-        for (:
-             ) {
-            
+        List<Generic> generics = new ArrayList();
+        for (Generic generic : hashtable.getAll()) {
+            if ( generic.getKey().toString().contains(search) ){
+                generics.add(generic);
+            }
         }
-
+        return;
     }
 
     public Generic get(Generic generic){
@@ -80,20 +85,23 @@ public class Manager {
         return generic;
     }
 
-    public Generic[] getAll(){
+    public List<Generic> getAll(){
         System.out.println("% Recovering All");
 
-        return hashtable.getAll();
+        return List.of(hashtable.getAll());
     }
 
     public void remove(Generic generic){
-        hashtable.remove(generic.getKey());
+        if (hashtable.remove(generic.getKey())){
+            System.out.println("% Removed Element");
+            return;
+        }
 
-        System.out.println("% Removed Element");
+        System.out.println("! Element not found");
     }
 
     public static IHashTable getAlgorithmHash(int i){
-        return Manager.IHashTables[i];
+        return Manager.IHashTables.get(i);
     }
 
 

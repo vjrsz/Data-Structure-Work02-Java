@@ -5,5 +5,4 @@ public interface IHashTable<K, V> {
     public V get(K key);
     public Generic[] getAll();
     public boolean remove(K key);
-
 }

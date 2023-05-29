@@ -36,6 +36,12 @@ public class Main {
         Generic rGeneric = new Generic(rfile.getName(), null) ;
         manager.remove(rGeneric);
 
+        // remove again
+        manager.remove(rGeneric);
+
+        // search
+        manager.search();
+
         /* get
         File gfile = files.get(0);
         Generic gGeneric = new Generic(gfile.getName(), null) ;
