@@ -1,25 +1,14 @@
 package Algorithms;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class HashingQuadratic<K, V> implements HashTable<K, V> {
-    private static final int DEFAULT_CAPACITY = 10;
-    private static final double DEFAULT_LOAD_FACTOR = 0.75;
-
+public class QuadraticHashTable<K, V> extends HashTable<K, V> {
     private Generic<K, V>[] table;
-    private int size;
-    private int capacity;
-    private double loadFactor;
 
-    public HashingQuadratic() {
+    public QuadraticHashTable() {
         this(DEFAULT_CAPACITY, DEFAULT_LOAD_FACTOR);
     }
 
-    public HashingQuadratic(int capacity, double loadFactor) {
-        this.capacity = capacity;
-        this.loadFactor = loadFactor;
-        this.size = 0;
+    public QuadraticHashTable(int capacity, double loadFactor) {
+        super(capacity, 0, loadFactor);
         this.table = new Generic[capacity];
     }
 
@@ -27,20 +16,21 @@ public class HashingQuadratic<K, V> implements HashTable<K, V> {
         if (key == null)
             throw new IllegalArgumentException("Key cannot be null.");
 
-        if (size >= loadFactor * capacity)
+        if (getSize() >= getCapacity() * getLoadFactor())
             resizeTable();
 
         int index = getIndex(key);
         int i = 1;
         int initialIndex = index;
 
+        // Se key for igual a key que ja estar na posição index ele sobreescreve o valor
         while (table[index] != null && !table[index].getKey().equals(key)) {
-            index = (initialIndex + i * i) % capacity;
+            index = (initialIndex + i * i) % getCapacity();
             i++;
         }
 
         if (table[index] == null)
-            size++;
+            setSize(getSize() + 1);
 
         table[index] = new Generic<>(key, value);
     }
@@ -54,7 +44,7 @@ public class HashingQuadratic<K, V> implements HashTable<K, V> {
         int initialIndex = index;
 
         while (table[index] != null && !table[index].getKey().equals(key)) {
-            index = (initialIndex + i * i) % capacity;
+            index = (initialIndex + i * i) % getCapacity();
             i++;
         }
 
@@ -65,10 +55,19 @@ public class HashingQuadratic<K, V> implements HashTable<K, V> {
     }
 
     public Generic<K, V>[] getAll() {
-        return this.table;
+        Generic[] generics = new Generic[getSize()];
+
+        int i = 0;
+        for (Generic g : this.table) {
+            if (g != null) {
+                generics[i++] = g;
+            }
+        }
+
+        return generics;
     }
 
-    public void remove(K key) {
+    public boolean remove(K key) {
         if (key == null)
             throw new IllegalArgumentException("Key cannot be null.");
 
@@ -77,34 +76,24 @@ public class HashingQuadratic<K, V> implements HashTable<K, V> {
         int initialIndex = index;
 
         while (table[index] != null && !table[index].getKey().equals(key)) {
-            index = (initialIndex + i * i) % capacity;
+            index = (initialIndex + i * i) % getCapacity();
             i++;
         }
 
         if (table[index] != null && table[index].getKey().equals(key)) {
             table[index] = null;
-            size--;
+            setSize(getSize() - 1);
+
+            return true;
         }
-    }
 
-    public int size() {
-        return size;
+        return false;
     }
-
-    private int getIndex(K key) {
-        int hashCode = key.hashCode();
-        int index = (hashCode % capacity + capacity) % capacity;
-        return index;
-    }
-
-    /*private int getIndex(K key) {
-        return Math.abs(key.hashCode() % capacity);
-    }*/
 
     private void resizeTable() {
-        capacity *= 2;
-        Generic<K, V>[] newTable = new Generic[capacity];
-        size = 0;
+        setCapacity(getCapacity() * 2);
+        setSize(0);
+        Generic<K, V>[] newTable = new Generic[getCapacity()];
 
         for (Generic<K, V> entry : table) {
             if (entry != null)
@@ -120,11 +109,11 @@ public class HashingQuadratic<K, V> implements HashTable<K, V> {
         int initialIndex = index;
 
         while (table[index] != null) {
-            index = (initialIndex + i * i) % capacity;
+            index = (initialIndex + i * i) % getCapacity();
             i++;
         }
 
         table[index] = new Generic<>(key, value);
-        size++;
+        setSize(getSize() + 1);
     }
 }

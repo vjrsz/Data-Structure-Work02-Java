@@ -13,22 +13,36 @@ public class Main {
 
         manager.create();
 
-        //File fs[] = Arrays.copyOfRange(files.toArray(new File[0]), 0, 10);
         // insert
-        for (File file : files){
+        for (File file : files.subList(0, 5)){
             Generic generic = new Generic(file.getName(), file);
 
             manager.insert(generic);
         }
 
-        // show all
+        // get all
         for ( Generic generic : manager.getAll() ){
-            if ( generic != null ){
-                showFile((File) generic.getValue());
-            }
+            showFile((File) generic.getValue());
         }
 
+        // search
+
+        // insert again
+        Generic iGeneric = new Generic(files.get(0).getName(), files.get(1));
+        manager.insert(iGeneric);
+
+        // remove
+        File rfile = files.get(0);
+        Generic rGeneric = new Generic(rfile.getName(), null) ;
+        manager.remove(rGeneric);
+
+        /* get
+        File gfile = files.get(0);
+        Generic gGeneric = new Generic(gfile.getName(), null) ;
+        gGeneric = manager.get(gGeneric);
+        showFile( (File) gGeneric.getValue() ); */
     }
+
     public static void showFiles(List<File> files){
         for (File file : files) {
             Main.showFile(file);
@@ -42,6 +56,6 @@ public class Main {
         System.out.println("+ Size : " + file.getSize());
         System.out.println("+ Dt Update : " + file.getDateUpdate());
         System.out.println("+ Dt Created : " + file.getDateCreated());
-        System.out.println("--");
+        System.out.println("");
     }
 }

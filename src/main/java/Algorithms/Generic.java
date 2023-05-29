@@ -17,6 +17,8 @@ public class Generic<Key , Value> implements Comparable<Generic<Key, Value>> {
         return this.value;
     }
 
+    public void setValue(Value value) { this.value = value; }
+
     @Override
     public int compareTo(Generic o) {
         if(this.key instanceof Integer){
