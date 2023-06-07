@@ -20,27 +20,21 @@ public class Main {
             manager.insert(generic);
         }
 
-        // get all
-        for ( Generic generic : manager.getAll() ){
-            showFile((File) generic.getValue());
-        }
-
         // search
+        manager.search();
 
-        // insert again
+        /* insert again
         Generic iGeneric = new Generic(files.get(0).getName(), files.get(1));
         manager.insert(iGeneric);
 
-        // remove
+        / remove
         File rfile = files.get(0);
         Generic rGeneric = new Generic(rfile.getName(), null) ;
         manager.remove(rGeneric);
 
         // remove again
-        manager.remove(rGeneric);
+        manager.remove(rGeneric);*/
 
-        // search
-        manager.search();
 
         /* get
         File gfile = files.get(0);

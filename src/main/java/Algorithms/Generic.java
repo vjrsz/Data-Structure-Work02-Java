@@ -1,6 +1,6 @@
 package Algorithms;
 
-public class Generic<Key , Value> implements Comparable<Generic<Key, Value>> {
+public class Generic<Key, Value> implements Comparable<Generic<Key, Value>> {
     private Key key;
     private Value value;
 
