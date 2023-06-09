@@ -1,4 +1,4 @@
-package Algorithms;
+package Algorithms.Hashs;
 
 public abstract class HashTable<K, V> implements IHashTable<K, V> {
     protected static final int DEFAULT_CAPACITY = 10;

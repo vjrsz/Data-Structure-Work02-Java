@@ -4,12 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcde99fb-98cc-4202-9a75-6186f76c149e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Algorithms/AVLTree.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Algorithms/ITree.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Algorithms/RBTree.java" afterDir="false" />
+    <list default="true" id="bcde99fb-98cc-4202-9a75-6186f76c149e" name="Changes" comment="up">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/RBTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Generic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/AVLTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/AVLTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/HashTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Hashs/HashTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/IHashTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Hashs/IHashTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/ITree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/ITree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/LinkedListHashTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Hashs/LinkedListHashTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/QuadraticHashTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Hashs/QuadraticHashTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/RBTree.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main/Manager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main/Manager.java" afterDir="false" />
     </list>
@@ -117,7 +121,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685221860042</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="up">
+      <created>1686101565755</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1686101565755</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="UnknownFeatures">

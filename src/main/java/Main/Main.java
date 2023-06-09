@@ -5,7 +5,6 @@ import File.File;
 import File.ReadFileCSV;
 
 import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
         List<File> files = ReadFileCSV.read("data/data.csv");

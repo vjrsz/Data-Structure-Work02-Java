@@ -1,6 +1,8 @@
-package Algorithms;
+package Algorithms.Hashs;
 
+import Algorithms.Generic;
 import java.util.LinkedList;
+
 public class LinkedListHashTable<K,V> extends HashTable<K,V> {
     private LinkedList<Generic<K, V>>[] table;
 

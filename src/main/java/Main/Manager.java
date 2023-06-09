@@ -1,6 +1,12 @@
 package Main;
 
 import Algorithms.*;
+import Algorithms.Hashs.IHashTable;
+import Algorithms.Hashs.LinkedListHashTable;
+import Algorithms.Hashs.QuadraticHashTable;
+import Algorithms.Trees.AVLTree;
+import Algorithms.Trees.ITree;
+import Algorithms.Trees.RBTree;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -98,7 +104,7 @@ public class Manager {
             }
         }
 
-        this.tree.all();
+
     }
 
     public Generic get(Generic generic){

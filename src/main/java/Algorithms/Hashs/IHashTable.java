@@ -1,4 +1,6 @@
-package Algorithms;
+package Algorithms.Hashs;
+
+import Algorithms.Generic;
 
 public interface IHashTable<K, V> {
     public void put(K key, V value);

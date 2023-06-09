@@ -1,106 +1,55 @@
-package Algorithms;
+package Algorithms.Trees;
 
-import java.util.Objects;
-
+import Algorithms.Generic;
 import static java.lang.Math.max;
 
-public class AVLTree<K, V> implements ITree<K, V>  {
-    private class AVLNode<K, V> extends Generic<K, V> {
-        AVLNode<K, V> left, right;
-        int height;
+class AVLNode<K, V> extends Generic<K, V> {
+    AVLNode<K, V> left, right;
+    int height;
 
-        public AVLNode(K key, V value) {
-            super(key, value);
-            this.height = 1;
-        }
-
-        public AVLNode(K key, V value, AVLNode<K, V> left, AVLNode<K, V> right) {
-            super(key, value);
-            this.left = left;
-            this.right = right;
-            this.height = 0;
-        }
-
-        public AVLNode<K, V> getLeft() {
-            return left;
-        }
-
-        public void setLeft(AVLNode<?, ?> left) {
-            this.left = (AVLNode<K, V>) left;
-        }
-
-        public AVLNode<K, V> getRight() {
-            return right;
-        }
-
-        public void setRight(AVLNode<?, ?> right) {
-            this.right = (AVLNode<K, V>) right;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public int getHeight(){
-            return height;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == null)
-                return false;
-            if (getClass() != obj.getClass())
-                return false;
-            final AVLNode<K, V> other = (AVLNode<K, V>) obj;
-            if (!Objects.equals(this.getKey(), other.getKey()))
-                return false;
-            return Objects.equals(this.getValue(), other.getValue());
-        }
-
-        @Override
-        public String toString() {
-            AVLNode<K, V> right = new AVLNode<>(null, null);
-            AVLNode<K, V> left = new AVLNode<>(null, null);
-
-            if( getRight() != null)
-                right = getRight();
-            if( getLeft() != null)
-                left = getLeft();
-
-            return "( KEY:" + getKey() + " | R:" +right.getKey() + "| L:" + left.getKey() + " ) - ";
-        }
+    public AVLNode(K key, V value) {
+        super(key, value);
+        this.height = 1;
+        this.left = null;
+        this.right = null;
     }
+
+    public AVLNode<K, V> getLeft() {
+        return left;
+    }
+
+    public AVLNode<K, V> getRight() {
+        return right;
+    }
+
+    public int getHeight(){
+        return height;
+    }
+}
+
+public class AVLTree<K, V> implements ITree<K, V> {
     public AVLNode<K, V> root;
 
-    public AVLNode<K, V> getRoot() {
-        return root;
-    }
-
-    public boolean isEmpty() {
-        return root == null;
-    }
-
-    public int height(AVLNode<K, V> node) {
-        return node == null ? -1 : node.getHeight();
+    public int height(AVLNode<K, V> AVLNode) {
+        return AVLNode == null ? -1 : AVLNode.getHeight();
     }
 
     public void put(K key, V value) {
-        root = insert(this.root, key, value);
+        root = put(this.root, key, value);
     }
-
-    private AVLNode<K, V> insert(AVLNode<K, V> root, K key, V value) {
-        AVLNode<K, V> newNode = new AVLNode(key, value);
+    private AVLNode<K, V> put(AVLNode<K, V> root, K key, V value) {
+        AVLNode<K, V> newAVLNode = new AVLNode(key, value);
 
         if (root == null) {
-            return new AVLNode<>(newNode.getKey(), newNode.getValue());
+            return new AVLNode<>(newAVLNode.getKey(), newAVLNode.getValue());
         }
 
-        int compare = root.compareTo(newNode);
+        int compare = root.compareTo(newAVLNode);
 
         if (compare > 0) {
-            root.left = insert(root.getLeft(), key, value);
+            root.left = put(root.getLeft(), key, value);
         } else if (compare < 0) {
-            root.right = insert(root.getRight(), key, value);
+            root.right = put(root.getRight(), key, value);
         } else {
             return root;
         }
@@ -138,10 +87,10 @@ public class AVLTree<K, V> implements ITree<K, V>  {
      * Função para procurar um elemento
      */
     public V get(K key) {
-        AVLNode<K, V> node = getRecursive(this.root, key);
+        AVLNode<K, V> AVLNode = getRecursive(this.root, key);
 
-        if (node != null) {
-            return node.getValue();
+        if (AVLNode != null) {
+            return AVLNode.getValue();
         } else
             return null;
     }
@@ -167,7 +116,7 @@ public class AVLTree<K, V> implements ITree<K, V>  {
      * Função para pegar o fator de
      * balanceamento de um elemento
      */
-    int getBalance(AVLNode<K, V> N) {
+    private int getBalance(AVLNode<K, V> N) {
         if (N == null) {
             return 0;
         }
@@ -228,23 +177,5 @@ public class AVLTree<K, V> implements ITree<K, V>  {
     private AVLNode<K, V> doubleRightRotate(AVLNode<K, V> k3) {
         k3.left = leftRotate(k3.left);
         return rightRotate(k3);
-    }
-
-    /**
-     * Funcao para vizualizar a árvore
-     */
-    public String inorderRec(AVLNode<K, V> root) {
-        String nodeToString = "";
-        if (root != null) {
-            nodeToString += inorderRec(root.getLeft());
-            nodeToString += root.toString();
-            nodeToString += inorderRec(root.getRight());
-        }
-        return nodeToString;
-    }
-
-    @Override
-    public void all() {
-        System.out.println(inorderRec(root));
     }
 }

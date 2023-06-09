@@ -1,4 +1,6 @@
-package Algorithms;
+package Algorithms.Hashs;
+
+import Algorithms.Generic;
 
 public class QuadraticHashTable<K, V> extends HashTable<K, V> {
     private Generic<K, V>[] table;
