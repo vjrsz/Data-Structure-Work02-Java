@@ -5,8 +5,6 @@ import Algorithms.Generic;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.Math.max;
-
 class BINode<K, V> extends Generic<K, V> {
     BINode<K, V> left, right;
 
@@ -27,7 +25,11 @@ class BINode<K, V> extends Generic<K, V> {
 
 public class BITree<K, V> implements ITree<K, V> {
     public BINode<K, V> root;
+    private long comparisons;
 
+    public BITree() {
+        this.comparisons = 0;
+    }
     /**
      * Função para inserir um elemento
      */
@@ -37,16 +39,16 @@ public class BITree<K, V> implements ITree<K, V> {
     private BINode<K, V> put(BINode<K, V> root, K key, V value) {
         BINode<K, V> newAVLNode = new BINode(key, value);
 
+        comparisons++;
         if (root == null) {
             return new BINode<>(newAVLNode.getKey(), newAVLNode.getValue());
         }
 
         int compare = root.compareTo(newAVLNode);
 
+        comparisons++;
         if (compare > 0) {
             root.left = put(root.getLeft(), key, value);
-        } else if (compare < 0) {
-            root.right = put(root.getRight(), key, value);
         } else {
             root.right = put(root.getRight(), key, value);
         }
@@ -65,6 +67,7 @@ public class BITree<K, V> implements ITree<K, V> {
         return values;
     }
     private void getAllRecursive(BINode node, List values){
+        comparisons++;
         if (node == null) {
             return;
         }
@@ -88,12 +91,14 @@ public class BITree<K, V> implements ITree<K, V> {
     private BINode<K, V> getRecursive(BINode<K, V> root, K key) {
 
         // Base Cases: root is null or key is present at root
+        comparisons++;
         if (root == null || root.getKey() == key) {
             return root;
         }
 
         // val is greater than root's key
         int compare = root.compareTo(new BINode(key, null));
+        comparisons++;
         if (compare > 0) {
             return getRecursive(root.left, key);
         }
@@ -118,22 +123,27 @@ public class BITree<K, V> implements ITree<K, V> {
     private BINode<K, V> removeRecursive(BINode<K, V> rootNode, K key) {
 
         /// REMOÇÃO PADRÃO ARVORE BINÁRIA
+        comparisons++;
         if (rootNode == null) {
             return rootNode;
         }
 
         // Se a chave a ser excluída for menor que a chave da raiz, então ela fica na subárvore esquerda
+        comparisons++;
         if ((int) key < (int) rootNode.getKey()) {
             rootNode.left = removeRecursive(rootNode.left, key);
         }
         // Se a chave a ser excluída for maior que a chave da raiz, então ela fica na subárvore direita
         else if ((int) key > (int) rootNode.getKey()) {
+            comparisons++;
             rootNode.right = removeRecursive(rootNode.right, key);
         } else { // se a chave for igual à chave da raiz, então este é o nó a ser deletado
             // nó com apenas um filho ou nenhum filho
+            comparisons+=2;
             if ((rootNode.left == null) || (rootNode.right == null)) {
                 BINode<K, V> temp = null;
 
+                comparisons++;
                 if (temp == rootNode.left) {
                     temp = rootNode.right;
                 } else {
@@ -141,6 +151,7 @@ public class BITree<K, V> implements ITree<K, V> {
                 }
 
                 // Se não tiver filho
+                comparisons++;
                 if (temp == null) {
                     temp = rootNode;
                     rootNode = null;
@@ -158,6 +169,7 @@ public class BITree<K, V> implements ITree<K, V> {
                 rootNode.right = removeRecursive(rootNode.right, temp.getKey());
             }
 
+            comparisons++;
             if (rootNode == null) {
                 return rootNode;
             }
@@ -179,5 +191,10 @@ public class BITree<K, V> implements ITree<K, V> {
     @Override
     public String getName() {
         return "BITree";
+    }
+
+    @Override
+    public long getComparisons() {
+        return comparisons;
     }
 }

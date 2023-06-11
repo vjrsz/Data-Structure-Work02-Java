@@ -6,9 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="bcde99fb-98cc-4202-9a75-6186f76c149e" name="Changes" comment="up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Generic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Generic.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/AVLTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/AVLTree.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/BITree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/BITree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/ITree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/ITree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/RBTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Algorithms/Trees/RBTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/Main/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/Main/Test.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -113,9 +115,9 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
-      <item itemvalue="Application.Test" />
       <item itemvalue="Application.test" />
+      <item itemvalue="Application.Test" />
+      <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>

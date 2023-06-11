@@ -61,7 +61,7 @@ public class Test {
                     List<File> filesSearch = tree.getAll();
                     timeGetAllTree = System.currentTimeMillis() - init;
 
-                    System.out.println("-> " + hashtable.getName() + " | " + tree.getName() + " | " + File.getNameKey() + " | Time Insert Hash: " + timeInsertHash + "ms | Time Insert Tree: " + timeInsertTree + "ms | " + "Time Get All Tree: " + timeGetAllTree + "ms");
+                    System.out.println("-> " + hashtable.getName() + " | " + tree.getName() + " | " + File.getNameKey() + " | Time Insert Hash: " + timeInsertHash + "ms | Time Insert Tree: " + timeInsertTree + "ms | " + "Time Get All Tree: " + timeGetAllTree + "ms" + " | Comparisons: " + tree.getComparisons());
                     //FileTablePrinter.showFiles(filesSearch);
                     System.out.println();
                 }

@@ -33,8 +33,14 @@ class AVLNode<K, V> extends Generic<K, V> {
 
 public class AVLTree<K, V> implements ITree<K, V> {
     public AVLNode<K, V> root;
+    private long comparisons;
+
+    public AVLTree() {
+        this.comparisons = 0;
+    }
 
     public int height(AVLNode<K, V> AVLNode) {
+        comparisons++;
         return AVLNode == null ? -1 : AVLNode.getHeight();
     }
 
@@ -47,6 +53,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
     private AVLNode<K, V> put(AVLNode<K, V> root, K key, V value) {
         AVLNode<K, V> newAVLNode = new AVLNode(key, value);
 
+        comparisons++;
         if (root == null) {
             return new AVLNode<>(newAVLNode.getKey(), newAVLNode.getValue());
         }
@@ -57,7 +64,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
             root.left = put(root.getLeft(), key, value);
         } else {
             root.right = put(root.getRight(), key, value);
-        }
+        } comparisons++;
 
         root.height = max(height(root.left), height(root.right)) + 1;
 
@@ -71,14 +78,14 @@ public class AVLTree<K, V> implements ITree<K, V> {
             if (balance > 1 && compare >= 0) {
                 return rightRotate(root);
             }
-        }
+        } comparisons++;
         // Right Right Case
         if ( root.right != null ) {
             compare = root.right.compareTo(newAVLNode);
             if (balance < -1 && compare <= 0) {
                 return leftRotate(root);
             }
-        }
+        } comparisons++;
         // Left Right Case
         if ( root.left != null ) {
             compare = root.left.compareTo(newAVLNode);
@@ -86,7 +93,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
                 root.left = leftRotate(root.left);
                 return rightRotate(root);
             }
-        }
+        } comparisons++;
         // Right Left Case
         if ( root.right != null ) {
             compare = root.right.compareTo(newAVLNode);
@@ -94,7 +101,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
                 root.right = rightRotate(root.right);
                 return leftRotate(root);
             }
-        }
+        } comparisons++;
         return root;
     }
 
@@ -109,6 +116,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
         return values;
     }
     private void getAllRecursive(AVLNode node, List values){
+        comparisons++;
         if (node == null) {
             return;
         }
@@ -124,6 +132,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
     public V get(K key) {
         AVLNode<K, V> AVLNode = getRecursive(this.root, key);
 
+        comparisons++;
         if (AVLNode != null) {
             return AVLNode.getValue();
         } else
@@ -150,9 +159,11 @@ public class AVLTree<K, V> implements ITree<K, V> {
      * Função para remover um elemento
      */
     public boolean removeNode(AVLNode<?, ?> node) {
+        comparisons++;
         if (isEmpty()) {
             return false;
         } else if (get((K) node.getKey()) == null) {
+            comparisons++;
             return false;
         } else {
             this.root = removeRecursive(this.root, (K) node.getKey());
@@ -162,24 +173,27 @@ public class AVLTree<K, V> implements ITree<K, V> {
     private AVLNode<K, V> removeRecursive(AVLNode<K, V> rootNode, K key) {
 
         /// REMOÇÃO PADRÃO ARVORE BINÁRIA
+        comparisons++;
         if (rootNode == null) {
             return rootNode;
         }
 
         // Se a chave a ser excluída for menor que a chave da raiz, então ela fica na subárvore esquerda
+        comparisons++;
         if ((int) key < (int) rootNode.getKey()) {
             rootNode.left = removeRecursive(rootNode.left, key);
         }
-
         // Se a chave a ser excluída for maior que a chave da raiz, então ela fica na subárvore direita
         else if ((int) key > (int) rootNode.getKey()) {
+            comparisons++;
             rootNode.right = removeRecursive(rootNode.right, key);
-
         } else { // se a chave for igual à chave da raiz, então este é o nó a ser deletado
             // nó com apenas um filho ou nenhum filho
+            comparisons+=2;
             if ((rootNode.left == null) || (rootNode.right == null)) {
                 AVLNode<K, V> temp = null;
 
+                comparisons++;
                 if (temp == rootNode.left) {
                     temp = rootNode.right;
                 } else {
@@ -187,6 +201,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
                 }
 
                 // Se não tiver filho
+                comparisons++;
                 if (temp == null) {
                     temp = rootNode;
                     rootNode = null;
@@ -205,6 +220,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
             }
 
             // If the tree had only one node then return
+            comparisons++;
             if (rootNode == null) {
                 return rootNode;
             }
@@ -217,20 +233,22 @@ public class AVLTree<K, V> implements ITree<K, V> {
 
             // Se este nó se tornar desbalanceado, então há 4 casos
             // Caso 1 -> rotação simples à direita
+            comparisons++;
             if (balance > 1 && getBalance(rootNode.left) >= 0)
                 return rightRotate(rootNode);
 
             // Caso 2 -> rotação dupla à direita
+            comparisons++;
             if (balance > 1 && getBalance(rootNode.left) < 0) {
                 rootNode.left = leftRotate(rootNode.left);
                 return rightRotate(rootNode);
             }
-
+            comparisons++;
             // Caso 4 -> rotação sumples à esquerda
             if (balance < -1 && getBalance(rootNode.right) <= 0) {
                 return leftRotate(rootNode);
             }
-
+            comparisons++;
             // Caso 4 -> rotação dupla à esquerda
             if (balance < -1 && getBalance(rootNode.right) > 0) {
                 rootNode.right = rightRotate(rootNode.left);
@@ -248,7 +266,9 @@ public class AVLTree<K, V> implements ITree<K, V> {
         AVLNode<K, V> current = node;
 
         /* loop down to find the leftmost leaf */
+        comparisons++;
         while (current.left != null) {
+            comparisons++;
             current = current.left;
         }
 
@@ -264,6 +284,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
      * balanceamento de um elemento
      */
     private int getBalance(AVLNode<K, V> N) {
+        comparisons++;
         if (N == null) {
             return 0;
         }
@@ -329,5 +350,10 @@ public class AVLTree<K, V> implements ITree<K, V> {
     @Override
     public String getName() {
         return "AVLTree";
+    }
+
+    @Override
+    public long getComparisons() {
+        return comparisons;
     }
 }
