@@ -1,6 +1,10 @@
 package Algorithms.Trees;
 
 import Algorithms.Generic;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.max;
 
 class AVLNode<K, V> extends Generic<K, V> {
@@ -48,10 +52,8 @@ public class AVLTree<K, V> implements ITree<K, V> {
 
         if (compare > 0) {
             root.left = put(root.getLeft(), key, value);
-        } else if (compare < 0) {
-            root.right = put(root.getRight(), key, value);
         } else {
-            return root;
+            root.right = put(root.getRight(), key, value);
         }
 
         root.height = max(height(root.left), height(root.right)) + 1;
@@ -60,25 +62,35 @@ public class AVLTree<K, V> implements ITree<K, V> {
 
         // If this node becomes unbalanced, then there
         // are 4 cases Left Left Case
-        if (balance > 1 && compare > 0) {
-            return rightRotate(root);
-        }
 
+        if ( root.left != null ) {
+            compare = root.left.compareTo(newAVLNode);
+            if (balance > 1 && compare >= 0) {
+                return rightRotate(root);
+            }
+        }
         // Right Right Case
-        if (balance < -1 && compare < 0) {
-            return leftRotate(root);
+        if ( root.right != null ) {
+            compare = root.right.compareTo(newAVLNode);
+            if (balance < -1 && compare <= 0) {
+                return leftRotate(root);
+            }
         }
-
         // Left Right Case
-        if (balance > 1 && compare < 0) {
-            root.left = leftRotate(root.left);
-            return rightRotate(root);
+        if ( root.left != null ) {
+            compare = root.left.compareTo(newAVLNode);
+            if (balance > 1 && compare <= 0) {
+                root.left = leftRotate(root.left);
+                return rightRotate(root);
+            }
         }
-
         // Right Left Case
-        if (balance < -1 && compare > 0) {
-            root.right = rightRotate(root.right);
-            return leftRotate(root);
+        if ( root.right != null ) {
+            compare = root.right.compareTo(newAVLNode);
+            if (balance < -1 && compare >= 0) {
+                root.right = rightRotate(root.right);
+                return leftRotate(root);
+            }
         }
         return root;
     }
@@ -86,6 +98,29 @@ public class AVLTree<K, V> implements ITree<K, V> {
     /**
      * Função para procurar um elemento
      */
+    public List<V> getAll() {
+        List<V> values = new ArrayList();
+
+        getAllRecursive(root, values);
+
+        return values;
+    }
+
+    @Override
+    public String getName() {
+        return "AVLTree";
+    }
+
+    private void getAllRecursive(AVLNode node, List values){
+        if (node == null) {
+            return;
+        }
+
+        getAllRecursive(node.left, values);
+        values.add(node.getValue());
+        getAllRecursive(node.right, values);
+    }
+
     public V get(K key) {
         AVLNode<K, V> AVLNode = getRecursive(this.root, key);
 

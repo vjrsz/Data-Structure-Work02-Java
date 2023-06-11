@@ -1,7 +1,7 @@
 package Algorithms;
 
 public class Generic<Key, Value> implements Comparable<Generic<Key, Value>> {
-    private Key key;
+    private final Key key;
     private Value value;
 
     public Generic(Key key, Value value) {

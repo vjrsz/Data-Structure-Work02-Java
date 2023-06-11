@@ -2,59 +2,32 @@ package Main;
 
 import Algorithms.Generic;
 import File.File;
+import File.FileTablePrinter;
 import File.ReadFileCSV;
-
 import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
-        List<File> files = ReadFileCSV.read("data/data.csv");
+        List<File> files = ReadFileCSV.read("data/data.csv"); // pegando os dados de um csv e botando em um objeto FILE
         Manager manager = new Manager();
 
-        manager.create();
+        manager.create(); // criando hashtable que vai ser usada
 
-        // insert
-        for (File file : files.subList(0, 5)){
+        // inserindo dados na hashtable
+        for (File file : files){
             Generic generic = new Generic(file.getName(), file);
 
             manager.insert(generic);
         }
 
-        // search
-        manager.search();
+        // função de pesquisa na hashtable e colocando o resultado em uma arvore
+        List<File> filesSearch = manager.search();
 
-        /* insert again
-        Generic iGeneric = new Generic(files.get(0).getName(), files.get(1));
-        manager.insert(iGeneric);
-
-        / remove
-        File rfile = files.get(0);
-        Generic rGeneric = new Generic(rfile.getName(), null) ;
-        manager.remove(rGeneric);
-
-        // remove again
-        manager.remove(rGeneric);*/
-
-
-        /* get
-        File gfile = files.get(0);
-        Generic gGeneric = new Generic(gfile.getName(), null) ;
-        gGeneric = manager.get(gGeneric);
-        showFile( (File) gGeneric.getValue() ); */
-    }
-
-    public static void showFiles(List<File> files){
-        for (File file : files) {
-            Main.showFile(file);
+        if ( filesSearch.size() > 0){
+            FileTablePrinter.showFiles(filesSearch); // imprimindo resultado ordenado
+        }else {
+            System.out.println("% No files found!");
         }
     }
 
-    public static void showFile(File file){
-        System.out.println("--");
-        System.out.println("+ Name : " + file.getName());
-        System.out.println("+ Type : " + file.getType());
-        System.out.println("+ Size : " + file.getSize());
-        System.out.println("+ Dt Update : " + file.getDateUpdate());
-        System.out.println("+ Dt Created : " + file.getDateCreated());
-        System.out.println("");
-    }
 }

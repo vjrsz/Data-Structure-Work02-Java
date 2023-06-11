@@ -79,6 +79,10 @@ public class LinkedListHashTable<K,V> extends HashTable<K,V> {
         return false;
     }
 
+    public String getName() {
+        return "LinkedListHashTable";
+    }
+
     private void resizeTable() {
         setCapacity(getCapacity() * 2);
         setSize(0);

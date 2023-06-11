@@ -1,11 +1,13 @@
 package File;
 
-public class File {
+public class File{
     private String name;
+    private String wordKey;
     private String type;
     private int size;
     private String dateUpdate;
     private String dateCreated;
+    private static int primaryKey = 1;
 
     public File(String name, String type, int size, String dateUpdate, String dateCreated) {
         this.name = name;
@@ -13,6 +15,18 @@ public class File {
         this.size = size;
         this.dateUpdate = dateUpdate;
         this.dateCreated = dateCreated;
+    }
+
+    public static String getNameKey() {
+        String[] attributes = {"name", "type", "size", "dateUpdate", "dateCreated"};
+
+        return attributes[primaryKey];
+    }
+
+    public Object getKey(){
+        Object[] attributes = {name, type, size, dateUpdate, dateCreated};
+
+        return attributes[primaryKey];
     }
 
     public String getName() {
@@ -53,5 +67,13 @@ public class File {
 
     public void setDateCreated(String dateCreated) {
         this.dateCreated = dateCreated;
+    }
+
+    public static int getPrimaryKey() {
+        return primaryKey;
+    }
+
+    public static void setPrimaryKey(int primaryKey) {
+        File.primaryKey = primaryKey;
     }
 }

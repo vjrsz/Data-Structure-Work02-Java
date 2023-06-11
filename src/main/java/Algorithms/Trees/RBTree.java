@@ -2,6 +2,9 @@ package Algorithms.Trees;
 
 import Algorithms.Generic;
 
+import java.util.ArrayList;
+import java.util.List;
+
 enum Color { RED, BLACK }
 
 class RBNode<K, V> extends Generic<K, V> {
@@ -24,10 +27,6 @@ public class RBTree<K, V> implements ITree<K, V> {
         root = null;
     }
 
-    public void printInOrder() {
-        inOrderTraversal(root);
-    }
-
     public void put(K key, V value) {
         RBNode newNode = new RBNode(key, value);
         put(newNode);
@@ -36,10 +35,10 @@ public class RBTree<K, V> implements ITree<K, V> {
         RBNode parent = null;
         RBNode current = root;
 
-        while (current != null) {
+        while (current != null) { // enquanto o atual diferente de null ele faz a comparacao pra ver onde inserir
             parent = current;
             int compare = RBNode.compareTo(current);
-            if (compare < 0) {
+            if (compare < 0) { // define se vai para esquerda ou direita
                 current = current.left;
             } else {
                 current = current.right;
@@ -53,14 +52,36 @@ public class RBTree<K, V> implements ITree<K, V> {
         } else {
             int compare = RBNode.compareTo(parent);
 
-            if (compare < 0) {
+            if (compare < 0) { // define se vai para esquerda ou direita
                 parent.left = RBNode;
             } else {
                 parent.right = RBNode;
             }
         }
 
-        fixViolation(RBNode);
+        fixViolation(RBNode); // verifica se ha alguma quebra de regra
+    }
+    public List<V> getAll() {
+        List<V> values = new ArrayList();
+
+        getAllRecursive(root, values); // busca recursiva
+
+        return values;
+    }
+
+    @Override
+    public String getName() {
+        return "RBTree";
+    }
+
+    private void getAllRecursive(RBNode node, List values){
+        if (node == null) {
+            return;
+        }
+
+        getAllRecursive(node.left, values);
+        values.add(node.getValue());
+        getAllRecursive(node.right, values);
     }
 
     private void rotateLeft(RBNode RBNode) {
@@ -147,15 +168,6 @@ public class RBTree<K, V> implements ITree<K, V> {
         }
 
         root.color = Color.BLACK;
-    }
-    private void inOrderTraversal(RBNode node) {
-        if (node == null) {
-            return;
-        }
-
-        inOrderTraversal(node.left);
-        System.out.print(node.getValue() + " ");
-        inOrderTraversal(node.right);
     }
 
 }

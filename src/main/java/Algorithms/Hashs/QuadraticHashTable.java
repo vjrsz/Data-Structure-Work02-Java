@@ -92,6 +92,10 @@ public class QuadraticHashTable<K, V> extends HashTable<K, V> {
         return false;
     }
 
+    public String getName() {
+        return "QuadraticHashTable";
+    }
+
     private void resizeTable() {
         setCapacity(getCapacity() * 2);
         setSize(0);
@@ -118,4 +122,5 @@ public class QuadraticHashTable<K, V> extends HashTable<K, V> {
         table[index] = new Generic<>(key, value);
         setSize(getSize() + 1);
     }
+
 }
