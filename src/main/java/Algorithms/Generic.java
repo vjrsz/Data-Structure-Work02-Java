@@ -1,23 +1,24 @@
 package Algorithms;
 
-public class Generic<Key, Value> implements Comparable<Generic<Key, Value>> {
-    private final Key key;
-    private Value value;
+public class Generic<K, V> implements Comparable<Generic<K, V>> {
+    private K key;
+    private V value;
 
-    public Generic(Key key, Value value) {
+    public Generic(K key, V value) {
         this.key = key;
         this.value = value;
     }
 
-    public Key getKey() {
+    public void setKey(K key) { this.key = key; }
+    public K getKey() {
         return this.key;
     }
 
-    public Value getValue() {
+    public V getValue() {
         return this.value;
     }
 
-    public void setValue(Value value) { this.value = value; }
+    public void setValue(V value) { this.value = value; }
 
     @Override
     public int compareTo(Generic o) {

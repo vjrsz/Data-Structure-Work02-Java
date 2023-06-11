@@ -38,6 +38,9 @@ public class AVLTree<K, V> implements ITree<K, V> {
         return AVLNode == null ? -1 : AVLNode.getHeight();
     }
 
+    /**
+     * Função para inserir um elemento
+     */
     public void put(K key, V value) {
         root = put(this.root, key, value);
     }
@@ -96,7 +99,7 @@ public class AVLTree<K, V> implements ITree<K, V> {
     }
 
     /**
-     * Função para procurar um elemento
+     * Função para retornar todos os elementos
      */
     public List<V> getAll() {
         List<V> values = new ArrayList();
@@ -105,12 +108,6 @@ public class AVLTree<K, V> implements ITree<K, V> {
 
         return values;
     }
-
-    @Override
-    public String getName() {
-        return "AVLTree";
-    }
-
     private void getAllRecursive(AVLNode node, List values){
         if (node == null) {
             return;
@@ -121,6 +118,9 @@ public class AVLTree<K, V> implements ITree<K, V> {
         getAllRecursive(node.right, values);
     }
 
+    /**
+     * Função para procurar um elemento
+     */
     public V get(K key) {
         AVLNode<K, V> AVLNode = getRecursive(this.root, key);
 
@@ -129,7 +129,6 @@ public class AVLTree<K, V> implements ITree<K, V> {
         } else
             return null;
     }
-
     private AVLNode<K, V> getRecursive(AVLNode<K, V> root, K key) {
 
         // Base Cases: root is null or key is present at root
@@ -145,6 +144,119 @@ public class AVLTree<K, V> implements ITree<K, V> {
 
         // val is less than root's key
         return getRecursive(root.right, key);
+    }
+
+    /**
+     * Função para remover um elemento
+     */
+    public boolean removeNode(AVLNode<?, ?> node) {
+        if (isEmpty()) {
+            return false;
+        } else if (get((K) node.getKey()) == null) {
+            return false;
+        } else {
+            this.root = removeRecursive(this.root, (K) node.getKey());
+            return true;
+        }
+    }
+    private AVLNode<K, V> removeRecursive(AVLNode<K, V> rootNode, K key) {
+
+        /// REMOÇÃO PADRÃO ARVORE BINÁRIA
+        if (rootNode == null) {
+            return rootNode;
+        }
+
+        // Se a chave a ser excluída for menor que a chave da raiz, então ela fica na subárvore esquerda
+        if ((int) key < (int) rootNode.getKey()) {
+            rootNode.left = removeRecursive(rootNode.left, key);
+        }
+
+        // Se a chave a ser excluída for maior que a chave da raiz, então ela fica na subárvore direita
+        else if ((int) key > (int) rootNode.getKey()) {
+            rootNode.right = removeRecursive(rootNode.right, key);
+
+        } else { // se a chave for igual à chave da raiz, então este é o nó a ser deletado
+            // nó com apenas um filho ou nenhum filho
+            if ((rootNode.left == null) || (rootNode.right == null)) {
+                AVLNode<K, V> temp = null;
+
+                if (temp == rootNode.left) {
+                    temp = rootNode.right;
+                } else {
+                    temp = rootNode.left;
+                }
+
+                // Se não tiver filho
+                if (temp == null) {
+                    temp = rootNode;
+                    rootNode = null;
+                } else {// Se tiver um filho
+                    rootNode = temp; // Copia o elemento para o filho não vazio
+                }
+            } else {
+                // no com dois filhos: pega o menor da subarvore à direita
+                AVLNode<K, V> temp = minValueNode(rootNode.right);
+
+                // Copia o sucessor para esse nó
+                rootNode.setKey(temp.getKey());
+
+                // deleta o menor da arvore à direita
+                rootNode.right = removeRecursive(rootNode.right, temp.getKey());
+            }
+
+            // If the tree had only one node then return
+            if (rootNode == null) {
+                return rootNode;
+            }
+
+            // ATUALIZA A ALTURA DO NÓ ATUAL
+            rootNode.height = max(height(rootNode.left), height(rootNode.right)) + 1;
+
+            // ATUALIZA O FATOR DE BALANCEAMENTO DO NÓ ATUAL
+            int balance = getBalance(rootNode);
+
+            // Se este nó se tornar desbalanceado, então há 4 casos
+            // Caso 1 -> rotação simples à direita
+            if (balance > 1 && getBalance(rootNode.left) >= 0)
+                return rightRotate(rootNode);
+
+            // Caso 2 -> rotação dupla à direita
+            if (balance > 1 && getBalance(rootNode.left) < 0) {
+                rootNode.left = leftRotate(rootNode.left);
+                return rightRotate(rootNode);
+            }
+
+            // Caso 4 -> rotação sumples à esquerda
+            if (balance < -1 && getBalance(rootNode.right) <= 0) {
+                return leftRotate(rootNode);
+            }
+
+            // Caso 4 -> rotação dupla à esquerda
+            if (balance < -1 && getBalance(rootNode.right) > 0) {
+                rootNode.right = rightRotate(rootNode.left);
+                return leftRotate(rootNode);
+            }
+        }
+        return rootNode;
+    }
+
+    /**
+     * Dada uma árvore de pesquisa binária não vazia, retorna o
+     * nó com valor mínimo de chave encontrado nessa árvore.
+     */
+    private AVLNode<K, V> minValueNode(AVLNode<K, V> node) {
+        AVLNode<K, V> current = node;
+
+        /* loop down to find the leftmost leaf */
+        while (current.left != null) {
+            current = current.left;
+        }
+
+        return current;
+    }
+
+    public boolean isEmpty() {
+        return root == null;
     }
 
     /**
@@ -212,5 +324,10 @@ public class AVLTree<K, V> implements ITree<K, V> {
     private AVLNode<K, V> doubleRightRotate(AVLNode<K, V> k3) {
         k3.left = leftRotate(k3.left);
         return rightRotate(k3);
+    }
+
+    @Override
+    public String getName() {
+        return "AVLTree";
     }
 }
