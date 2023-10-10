@@ -17,7 +17,7 @@ Work aims to learn and implement binary trees and hashtable for generic type dat
 ## How to Run the Application
 Clone this repository to your local environment using the command:
 ```
-git clone https://github.com/vjrsz/Search-Engine-Python.git
+git clone https://github.com/vjrsz/Data-Structure-Work02-Java.git
 ```
 Navigate to the project directory:
 ```
